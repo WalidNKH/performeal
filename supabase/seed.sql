@@ -1,0 +1,5 @@
+-- insert into posts (content)
+-- values
+-- ('Today was a good day!'),
+-- ('Cats are so cute!'),
+-- ('Supabase is so much fun!');
