@@ -10,6 +10,8 @@ class CustomButton extends StatelessWidget {
   final Color borderColor;
   final double borderWidth;
   final TextStyle? style;
+  final double? width; // Nouvelle propriété pour la largeur
+  final bool fullWidth;
 
   const CustomButton({
     super.key,
@@ -21,11 +23,13 @@ class CustomButton extends StatelessWidget {
     this.borderColor = Colors.transparent,
     this.borderWidth = 2.0,
     this.style,
+    this.width, // Largeur spécifique si nécessaire
+    this.fullWidth = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    Widget button = ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
@@ -61,5 +65,20 @@ class CustomButton extends StatelessWidget {
         ],
       ),
     );
+    if (fullWidth) {
+      return SizedBox(
+        width: double.infinity,
+        child: button,
+      );
+    }
+
+    // Si une largeur spécifique est fournie, on enveloppe le bouton dans un SizedBox avec cette largeur
+    if (width != null) {
+      return SizedBox(
+        width: width,
+        child: button,
+      );
+    }
+    return button;
   }
 }

@@ -10,7 +10,6 @@ void main() async {
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nZndyaWlzZGVkdHFybHlmcGJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI1MzQ2NzcsImV4cCI6MjA0ODExMDY3N30.TBwY80yaLKXLUD-PunOfJ4UNm6BwLBzBJ_q7SiONCJI",
     url: "https://mgfwriisdedtqrlyfpbj.supabase.co",
   );
-
   runApp(const MyApp());
 }
 

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:performeal/components/button.dart';
-import 'package:performeal/routes.dart';
-
+import 'package:performeal/controllers/SecondOnboardingController.dart';
 import '../auth/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -22,6 +21,29 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
+  // void signUp() async {
+  //   final email = _emailController.text;
+  //   final password = _passwordController.text;
+  //   final confirmPassword = _confirmPasswordController.text;
+
+  //   if (password != confirmPassword) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text("Les mots de passe ne correspondent pas")),
+  //     );
+  //   }
+
+  //   try {
+  //     await authService.signUpWithEmailPassword(email, password);
+  //     Get.offAllNamed(profilRoute);
+  //   } catch (e) {
+  //     if (mounted) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text("Error: $e")),
+  //       );
+  //     }
+  //   }
+  // }
+
   void signUp() async {
     final email = _emailController.text;
     final password = _passwordController.text;
@@ -31,11 +53,21 @@ class _RegisterPageState extends State<RegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Les mots de passe ne correspondent pas")),
       );
+      return;
     }
 
     try {
+      // Inscription de l'utilisateur
       await authService.signUpWithEmailPassword(email, password);
-      Get.offAllNamed(profilRoute);
+
+      // Récupérer le controller de SecondOnboarding
+      final secondOnboardingController = Get.find<SecondOnboardingController>();
+
+      // Sauvegarder les données d'onboarding
+      await secondOnboardingController.saveUserData();
+
+      // Navigation vers la page profil (cette ligne peut être supprimée car saveUserData gère déjà la navigation)
+      // Get.offAllNamed(profilRoute);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

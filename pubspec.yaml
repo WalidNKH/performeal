@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_sign_in: ^6.2.1
+  intl: ^0.18.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,6 +44,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mock_supabase_http_client: ^0.0.3+2
+  build_runner: ^2.4.8
+  shared_preferences: ^2.2.2
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -100,3 +104,18 @@ flutter:
     - assets/images/google.png
     - assets/images/mascotteconnexion.png
     - assets/images/performeal-orange.png
+    - assets/images/avocat.png
+    - assets/images/chouxfleur.png
+    - assets/images/p1.png
+    - assets/images/p2.png
+    - assets/images/p3.png
+    - assets/images/p4.png
+    - assets/images/p5.png
+    - assets/images/chouxfleurs.png
+    - assets/images/p7.png
+    - assets/images/p8.png
+    - assets/images/p9.png
+    - assets/images/p10.png
+    - assets/images/p11.png
+    - assets/images/p12.png
+    - assets/images/course.png

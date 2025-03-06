@@ -1,32 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:performeal/auth/auth_service.dart';
 import 'package:performeal/components/button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:performeal/controllers/AuthController.dart';
 import 'package:performeal/routes.dart';
 
-class LoginPage extends GetWidget<AuthController> {
-  LoginPage({super.key});
-
-  final authService = AuthService();
-
-  // state variables
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  void login() async {
-    final email = _emailController.text;
-    final password = _passwordController.text;
-
-    try {
-      await authService.signInWithEmailPassword(email, password);
-    } catch (e) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        SnackBar(content: Text("Error: $e")),
-      );
-    }
-  }
+class LoginPage extends GetView<AuthController> {
+  const LoginPage({super.key});
 
   // build the UI
   @override
@@ -85,16 +65,7 @@ class LoginPage extends GetWidget<AuthController> {
                 CustomButton(
                   text: 'Continuer avec Google',
                   onPressed: () async {
-                    try {
-                      await authService.googleSignIn();
-                      Get.offNamed('/home');
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content:
-                                Text('Erreur de connexion: ${e.toString()}')),
-                      );
-                    }
+                    await controller.googleLogin();
                   },
                   icon: FontAwesomeIcons.google,
                   backgroundColor: Color(0xFFEC661D),
@@ -113,7 +84,7 @@ class LoginPage extends GetWidget<AuthController> {
                 ),
                 const SizedBox(height: 15),
                 GestureDetector(
-                  onTap: () => Get.toNamed(registerRoute),
+                  onTap: () => Get.toNamed(onboardingRoute),
                   child: const Text(
                     "Vous n'avez pas de compte ?",
                     style: TextStyle(

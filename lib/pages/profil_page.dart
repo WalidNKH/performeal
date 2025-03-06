@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:performeal/auth/auth_service.dart';
-import 'package:performeal/routes.dart';
+import 'package:performeal/components/profilComponents.dart';
+import 'package:performeal/services/user_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,23 +13,66 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final authService = AuthService();
-  void logout() async {
-    await authService.signOut();
-    Get.offAllNamed(initialRoute);
+  final userService = UserService();
+  final supabase = Supabase.instance.client;
+  Map<String, dynamic>? userData;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      final userId = supabase.auth.currentUser?.id;
+      if (userId != null) {
+        final data = await userService.getUserById(userId);
+        setState(() {
+          userData = data;
+        });
+        print('=== DONNÉES UTILISATEUR CHARGÉES ===');
+        print(userData);
+      }
+    } catch (e) {
+      print('Erreur lors du chargement des données: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Erreur lors du chargement des données'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profil"),
-        actions: [
-          IconButton(onPressed: logout, icon: const Icon(Icons.logout))
-        ],
+      backgroundColor: const Color(0xFFFFF8F3),
+      body: SafeArea(
+        child: userData == null
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFFEC661D),
+                ),
+              )
+            : Column(
+                children: [
+                  ProfileHeader(
+                    authService: authService,
+                    userName: userData!['name'] ?? '',
+                  ),
+                  if (userData!['deadline'] != null)
+                    ProgressTrack(
+                      deadline: DateTime.parse(userData!['deadline']),
+                    ),
+                ],
+              ),
       ),
-      body: Center(
-          child: Text(authService.getCurrentUserEmail() ??
-              "Aucun utilisateur connecté")),
     );
   }
 }
+
+// Painter personnalisé pour la ligne pointillée

@@ -45,7 +45,7 @@ class StartPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 150),
+            const SizedBox(height: 150),
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -58,7 +58,9 @@ class StartPage extends StatelessWidget {
                         height: 50,
                         child: CustomButton(
                           text: 'Commencer',
-                          onPressed: () => Get.toNamed('/register'),
+                          onPressed: () {
+                            Get.toNamed(onboardingRoute);
+                          },
                           backgroundColor: const Color(0xFFEC661D),
                           foregroundColor: Colors.white,
                           borderColor: const Color(0xFFEC661D),
