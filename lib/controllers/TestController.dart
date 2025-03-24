@@ -60,4 +60,5 @@ class TestController extends GetxController {
           'BMR calculé avec activité: ${basalMetabolicRate.value.toStringAsFixed(2)} calories');
     }
   }
+
 }

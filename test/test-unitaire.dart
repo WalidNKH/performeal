@@ -1,14 +1,36 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
-import 'package:performeal/controllers/TestController.dart';
+import 'package:mock_supabase_http_client/mock_supabase_http_client.dart';
+import 'package:performeal/controllers/SecondOnboardingController.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  group('SecondOnboardingController - calculateBMR Tests', () {
-    late TestController controller;
+  late final SupabaseClient mockSupabase;
+  late final MockSupabaseHttpClient mockHttpClient;
 
-    setUp(() {
-      controller = TestController();
+  group('SecondOnboardingController - calculateBMR Tests', () {
+    late SecondOnboardingController controller;
+
+    setUpAll(() async {
+      mockHttpClient = MockSupabaseHttpClient();
+      // Configuration des shared preferences pour les tests
+      SharedPreferences.setMockInitialValues({});
+
+      mockSupabase = await SupabaseClient(
+        'https://mock.test.co',
+        'mock_anon_key',
+        httpClient: mockHttpClient,
+      );
+      // Initialisation du controller
+      controller = SecondOnboardingController();
+    });
+
+    tearDown(() async {
+      Get.reset();
+
+      mockHttpClient.reset();
     });
 
     test('BMR calculation for sedentary male', () async {
