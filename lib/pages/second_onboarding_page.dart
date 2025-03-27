@@ -58,6 +58,11 @@ class SecondOnboardingPage extends StatelessWidget {
             controller: controller,
           ),
           UserDataSlide(
+            imageName: 'p4',
+            content: WeightGoalInputContent(controller: controller),
+            controller: controller,
+          ),
+          UserDataSlide(
             imageName: 'p8',
             // title: 'Bonjour ${controller.name.value}',
             content: SportInputContent(controller: controller),
@@ -70,12 +75,15 @@ class SecondOnboardingPage extends StatelessWidget {
             controller: controller,
           ),
           Obx(
-            () => UserDataSlide(
-              title: 'Bienvenue ${controller.name.value}',
-              content: DeadlineInputContent(controller: controller),
-              controller: controller,
-              isLastSlide: true,
-            ),
+            () {
+              return UserDataSlide(
+                imageName: 'p10',
+                title: 'Bienvenue ${controller.name.value}',
+                content: DeadlineInputContent(controller: controller),
+                controller: controller,
+                isLastSlide: true,
+              );
+            },
           )
         ],
       ),

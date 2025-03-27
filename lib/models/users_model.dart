@@ -10,6 +10,7 @@ class UserModel {
   final String? gender;
   final double? height;
   final double? weight;
+  final double? weight_goal;
   final double? basalMetabolicRate;
   final GoalType? goal;
   final SportType sport;
@@ -28,6 +29,7 @@ class UserModel {
     this.gender,
     this.height,
     this.weight,
+    this.weight_goal,
     this.basalMetabolicRate,
     this.goal,
     required this.sport,
@@ -49,6 +51,7 @@ class UserModel {
       gender: json['gender'],
       height: json['height']?.toDouble(),
       weight: json['weight']?.toDouble(),
+      weight_goal: json['weight_goal']?.toDouble(),
       basalMetabolicRate: json['basal_metabolic_rate']?.toDouble(),
       goal: GoalType.fromDbValue(json['goal']),
       sport: SportType.fromDbValue(json['sport']),
@@ -74,6 +77,7 @@ class UserModel {
       'gender': gender,
       'height': height,
       'weight': weight,
+      'weight_goal': weight_goal,
       'basal_metabolic_rate': basalMetabolicRate,
       'goal': goal,
       'sport': sport.toDbValue(),
@@ -113,6 +117,7 @@ class UserModel {
       gender: gender ?? this.gender,
       height: height ?? this.height,
       weight: weight ?? this.weight,
+      weight_goal: weight_goal ?? this.weight_goal,
       basalMetabolicRate: basalMetabolicRate ?? this.basalMetabolicRate,
       goal: goal ?? this.goal,
       sport: sport ?? this.sport,

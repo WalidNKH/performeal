@@ -427,6 +427,115 @@ class SportInputContent extends StatelessWidget {
   }
 }
 
+class WeightGoalInputContent extends StatelessWidget {
+  final SecondOnboardingController controller;
+
+  const WeightGoalInputContent({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Quel est ton poids visé ?',
+            style: TextStyle(
+              fontFamily: 'Oscine',
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(height: 30),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.withOpacity(0.3)),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.remove_circle_outline),
+                color: const Color(0xFFFF7E1D),
+                iconSize: 32,
+                onPressed: () {
+                  if (controller.weight_goal.value > 40) {
+                    controller
+                        .updateWeightGoal(controller.weight_goal.value - 0.5);
+                  }
+                },
+              ),
+              const SizedBox(width: 20),
+              Obx(() => Text(
+                    '${controller.weight_goal.value.toStringAsFixed(1)} kg',
+                    style: const TextStyle(
+                      fontSize: 32,
+                      fontFamily: 'Oscine',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+              const SizedBox(width: 20),
+              IconButton(
+                icon: const Icon(Icons.add_circle_outline),
+                color: const Color(0xFFFF7E1D),
+                iconSize: 32,
+                onPressed: () {
+                  if (controller.weight_goal.value < 150) {
+                    controller
+                        .updateWeightGoal(controller.weight_goal.value + 0.5);
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        // Afficher la différence avec le poids actuel
+        Obx(() {
+          final difference =
+              controller.weight_goal.value - controller.weight.value;
+          final absValue = difference.abs();
+          final sign = difference > 0 ? '+' : '-';
+          return Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFF8F3),
+              borderRadius: BorderRadius.circular(12),
+              border:
+                  Border.all(color: const Color(0xFFFF7E1D).withOpacity(0.3)),
+            ),
+            child: Column(
+              children: [
+                const Text(
+                  'Différence avec le poids actuel',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Oscine',
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '$sign${absValue.toStringAsFixed(1)} kg',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'Oscine',
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFFF7E1D),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ],
+    );
+  }
+}
+
 class ObjectifInputContent extends StatelessWidget {
   final SecondOnboardingController controller;
 
@@ -685,6 +794,7 @@ class HeightInputContent extends StatelessWidget {
                 const SizedBox(height: 10),
                 // Nouveau texte pour le commentaire personnalisé
                 AnimatedSwitcher(
+                  key: Key(controller.height.value.toString()),
                   duration: const Duration(milliseconds: 300),
                   child: Text(
                     getHeightComment(controller.height.value),

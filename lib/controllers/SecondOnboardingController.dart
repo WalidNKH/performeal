@@ -17,6 +17,7 @@ class SecondOnboardingController extends GetxController {
   final gender = ''.obs;
   final height = 170.0.obs;
   final weight = 70.0.obs;
+  final weight_goal = 70.0.obs;
   final sport = Rx<SportType>(SportType.autre);
   final goal = Rx<GoalType>(GoalType.mangerSain);
   final basalMetabolicRate = 0.0.obs;
@@ -38,9 +39,8 @@ class SecondOnboardingController extends GetxController {
     calculateBMR();
   }
 
-
   void nextPage() {
-    if (pageController.page! < 8) {
+    if (pageController.page! < 9) {
       // Nombre total de pages - 1
       pageController.nextPage(
         duration: const Duration(milliseconds: 300),
@@ -108,6 +108,16 @@ class SecondOnboardingController extends GetxController {
       weeklySportsCount.value = value;
       if (userId != null) {
         await _userService.updateWeeklySportsCount(userId!, value);
+      }
+    }
+    logUserData();
+  }
+
+  Future<void> updateWeightGoal(double? value) async {
+    if (value != null) {
+      weight_goal.value = value;
+      if (userId != null) {
+        await _userService.updateWeightGoal(userId!, value);
       }
     }
     logUserData();
@@ -329,6 +339,7 @@ class SecondOnboardingController extends GetxController {
         'gender': gender.value,
         'height': height.value,
         'weight': weight.value,
+        'weight_goal': weight_goal.value, // Ajouter le poids visé
         'sport': sport!.value.toDbValue(),
         'goal': goal!.value.toDbValue(),
         'weekly_sports_count': weeklySportsCount.value,

@@ -93,6 +93,11 @@ class UserService {
     await updateUser(userId, {'weight': weight});
   }
 
+  // Mettre à jour le poids visé
+  Future<void> updateWeightGoal(String userId, double weight_goal) async {
+    await updateUser(userId, {'weight_goal': weight_goal});
+  }
+
   // Ajouter cette méthode dans votre UserService
   Future<void> updateRestrictions(String userId, String restrictions) async {
     try {
